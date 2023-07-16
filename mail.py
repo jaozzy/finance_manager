@@ -5,7 +5,6 @@ from email.mime.base import MIMEBase
 from email import encoders
 import os
 from essencials import ct, get_path
-import sys
 from mail_info import email, senha
 
 ct()
@@ -18,8 +17,8 @@ SMTP_PORT = 587
 SENDER_EMAIL = f'{email}'
 SENDER_PASSWORD = f'{senha}'
 
-receiver_email = sys.argv[1]
-subject = 'Financial Manager'
+receiver_email = str(input('Type the receiver email adress:    '))
+subject = 'Gerenciador Financeiro'
 
 # Create the email message
 msg = MIMEMultipart()
@@ -45,9 +44,9 @@ def send_mail():
         server.starttls()
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.sendmail(SENDER_EMAIL, receiver_email, msg.as_string())
-        print('Email sent successfully!')
+        print('Email enviado com sucesso!')
     except Exception as e:
-        print('Error sending email:', str(e))
+        print('Erro ao enviar email:', str(e))
     finally:
         server.quit()
 

@@ -17,5 +17,5 @@ while True:
     texts.append(text + '\n')
     
 # Write the accumulated data to the 'infos.txt' file
-with open('infos.txt', 'w', encoding='utf8') as file:
+with open('database.txt', 'w', encoding='utf8') as file:
     file.write(f'{data}\n')

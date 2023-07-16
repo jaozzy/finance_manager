@@ -16,17 +16,11 @@ def get_path():
     return path
 
 # Function to check if a file exists in the current directory and delete it if it does
-def file_exists(filename):
-    # Get the current path
-    path = get_path()
-
-    # Get the list of files in the current directory
-    files_in_path = os.listdir(path)
-
+def del_file(filename):
     # Check if the specified filename exists in the directory
-    if filename in files_in_path:
+    if os.path.exists(filename):
         # Delete the file using the appropriate command based on the operating system
-        os.system(f'del {filename}')
-        pass
-    else:
-        pass
+        os.remove(filename)
+
+def start_py_file(file):
+    os.system(f'python {file}')
