@@ -1,14 +1,14 @@
 from docx import Document
 from manager import extra_infos
 from datetime import datetime
-from essencials import get_path, file_exists
+from essencials import get_path, del_file, start_py_file
 
 # Get the path of the script
 path = get_path()
 graphdir = f'{path}/graphs/'
 
 # Check if the file 'relatorio.docx' exists
-file_exists('relatorio.docx')
+del_file('relatorio.docx')
 
 def format_number(value):
     # Formata o valor com a separação de casas de milhar e decimais

@@ -2,9 +2,20 @@ import os
 import shutil
 import matplotlib.pyplot as plt
 from manager import extra_infos as extra
-from essencials import ct, get_path
+from essencials import ct, get_path, start_py_file, del_file
 
 ct()
+
+path = get_path()
+dest = f'{path}/graphs/'
+
+# List of graph file names
+graphnames = ['grafico_despesas_categoria.png', 'grafico_despesas_metodo.png', 'grafico_receitas_categoria.png', 'grafico_receitas_metodo.png']
+
+for graph in graphnames:
+    # Call the del_file function to delete the old graph file
+    del_file(f'{dest}/{graph}')
+
 
 # Get extra information from manager.py
 receitas, receitas_total, receitas_met, receitas_cat, despesas, despesas_total, despesas_met, despesas_cat, supv, percD_R, percD_M, percD_C, percR_M, percR_C, data_min, data_max, periodo, periodo_str, mdia_d_D, mdia_r_D = extra()
@@ -106,12 +117,7 @@ ax4.legend(wedges, legend_labels, loc='center left', bbox_to_anchor=(1.3, 0.5), 
 fig4.savefig('grafico_receitas_metodo.png', bbox_inches='tight')
 
 # Move the graph files to the 'graphs' folder
-path = get_path()
 files = os.listdir(path)
-dest = f'{path}/graphs/'
-
 for file in files:
     if file.endswith('.png'):
         shutil.move(file, dest)
-
-print('Graphs generated successfully')

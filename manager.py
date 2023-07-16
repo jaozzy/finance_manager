@@ -1,19 +1,15 @@
 import os
 import pandas as pd
-
-# Cleans the terminal
-def ct():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-# Function to get the path of the script
-def get_path():
-    return os.path.dirname(os.path.abspath(__file__))
+from essencials import ct, get_path, start_py_file, del_file
 
 # Cleans the terminal
 ct()
 
 # Gets the directory where the script is
 path = get_path()
+
+# Deletes the Excel file if it already exist before create another one
+del_file('infos.xlsx')
 
 # Opens a txt file with the necessary info
 with open('database.txt', 'r', encoding='utf-8') as file:
