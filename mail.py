@@ -13,8 +13,8 @@ path = get_path()
 
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
-SENDER_EMAIL = 'jao.devscript@gmail.com'
-SENDER_PASSWORD = 'fmjbdebhmyfepbgs'
+SENDER_EMAIL = 'email adress'
+SENDER_PASSWORD = 'password'
 
 receiver_email = sys.argv[1]
 subject = 'Gestor Financeiro'

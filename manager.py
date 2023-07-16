@@ -1,6 +1,13 @@
-from essencials import ct, get_path
 import os
 import pandas as pd
+
+# Cleans the terminal
+def ct():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Function to get the path of the script
+def get_path():
+    return os.path.dirname(os.path.abspath(__file__))
 
 # Cleans the terminal
 ct()
@@ -40,6 +47,10 @@ def extra_infos():
     despesas = df[df['TIPO'] == 'd'].copy()
     despesas_total = despesas['VALOR'].sum()
     
+    # Convert 'VALOR' column to numeric type
+    despesas['VALOR'] = pd.to_numeric(despesas['VALOR'])
+    receitas['VALOR'] = pd.to_numeric(receitas['VALOR'])
+    
     # Calculate totals by MÉTODO (method)
     despesas_met = despesas.groupby('MÉTODO')['VALOR'].sum()
     receitas_met = receitas.groupby('MÉTODO')['VALOR'].sum()
@@ -52,7 +63,19 @@ def extra_infos():
     supv = receitas_total - despesas_total
     
     # Calculate percentage of expenses to revenues
-    percD_R = (despesas_total / receitas_total) * 100
+    percD_R = (despesas_total / receitas_total) * 100 if receitas_total != 0 else 0
+    
+    # Calculate expense percentages by method
+    percD_M = (despesas_met / despesas_total) * 100 if despesas_total != 0 else 0
+
+    # Calculate expense percentages by category
+    percD_C = (despesas_cat / despesas_total) * 100 if despesas_total != 0 else 0
+
+    # Calculate revenue percentages by method
+    percR_M = (receitas_met / receitas_total) * 100 if receitas_total != 0 else 0
+
+    # Calculate revenue percentages by category
+    percR_C = (receitas_cat / receitas_total) * 100 if receitas_total != 0 else 0
     
     # Convert 'DATA' columns to datetime format
     df['DATA'] = pd.to_datetime(df['DATA'], format='%d/%m/%Y')
@@ -78,8 +101,8 @@ def extra_infos():
     periodo_str = formatar_periodo(anos, meses, dias)
 
     # Calculate average daily expenses and revenues
-    mdia_d_D = (despesas_total / dias)
-    mdia_r_D = (receitas_total / dias)
+    mdia_d_D = (despesas_total / dias) if dias != 0 else 0
+    mdia_r_D = (receitas_total / dias) if dias != 0 else 0
     
     # Add columns with total despesas and receitas to respective DataFrames
     receitas['TOTAL'] = receitas_total
@@ -88,7 +111,7 @@ def extra_infos():
     despesas.loc[2:, 'TOTAL'] = pd.NA
     
     # Return the calculated values 
-    return receitas, receitas_total, receitas_met, despesas, despesas_total, despesas_met, supv, percD_R, data_min, data_max, periodo, periodo_str, mdia_d_D, mdia_r_D
+    return receitas, receitas_total, receitas_met, receitas_cat, despesas, despesas_total, despesas_met, despesas_cat, supv, percD_R, percD_M, percD_C, percR_M, percR_C, data_min, data_max, periodo, periodo_str, mdia_d_D, mdia_r_D
 
 # Save the data to an Excel file
 with pd.ExcelWriter("infos.xlsx") as writer:
@@ -98,6 +121,6 @@ with pd.ExcelWriter("infos.xlsx") as writer:
     receitas_df.drop(columns=['TIPO']).to_excel(writer, index=False, sheet_name="receitas")
     
     # Save despesas (expenses) DataFrame to 'despesas' sheet
-    despesas_df = extra_infos()[3]
+    despesas_df = extra_infos()[4]
     despesas_df['DATA'] = despesas_df['DATA'].dt.strftime('%d/%m/%Y')
     despesas_df.drop(columns=['TIPO']).to_excel(writer, index=False, sheet_name="despesas")
