@@ -23,7 +23,7 @@
 <p>Sempre escreva uma vírgula entre os dados e no final da linha (da última também)!</p>
 
 <strong><h3>Exemplo de como os dados devem ser inscritos:</h3></strong>
-![Imagem 1](https://github.com/jaozzy/finance_manager/blob/master/img/database_example.txt)
+![Imagem 1](https://github.com/jaozzy/finance_manager/blob/master/img/database_example.png)
 
 <strong><h2>Executando a Análise dos Dados:</h2></strong>
 
@@ -62,7 +62,7 @@
 
 <strong><h3>Example of how the data should be entered:</h3></strong>
 
-![Imagem 1](https://github.com/jaozzy/finance_manager/blob/master/img/database_example.txt)
+![Image 1](https://github.com/jaozzy/finance_manager/blob/master/img/database_example.png)
 
 <strong><h2>Running Data Analysis:</h2></strong>
 
