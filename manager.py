@@ -93,9 +93,19 @@ def extra_infos():
     
     def formatar_periodo(anos, meses, dias):
         # Format the period string
-        periodo_str = f'{anos} year' if anos == 1 else f'{anos} years'
-        periodo_str += f', {meses} month' if meses == 1 else f', {meses} months'
-        periodo_str += f', {dias} day' if dias == 1 else f', {dias} days.'
+        periodo_str = ''
+
+        if anos > 0:
+            periodo_str += f'{anos} ano' if anos == 1 else f'{anos} anos'
+
+        if meses > 0:
+            periodo_str += f', {meses} mês' if meses == 1 else f' {meses} meses'
+
+        if dias > 0:
+            periodo_str += f' e {dias} dia' if dias == 1 else f' e {dias} dias'
+
+        if not periodo_str:
+            periodo_str = '0 dias'
         return periodo_str
         
     periodo_str = formatar_periodo(anos, meses, dias)

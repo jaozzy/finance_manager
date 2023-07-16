@@ -10,6 +10,10 @@ graphdir = f'{path}/graphs/'
 # Check if the file 'relatorio.docx' exists
 file_exists('relatorio.docx')
 
+def format_number(value):
+    # Formata o valor com a separação de casas de milhar e decimais
+    return "{:,.2f}".format(value).replace(",", "_").replace(".", ",").replace("_", ".")
+
 def generate_report():
     # Gets the exact moment when the report was generated
     agora = datetime.now()
@@ -23,24 +27,26 @@ def generate_report():
     doc.add_heading('Relatório Financeiro', level=1)  # Add a level 1 heading for the financial report
     doc.add_paragraph(f'Relatório Gerado em {data_formatada} às {agora.strftime("%H:%M")}')  # Add the report generation date and time
     doc.add_paragraph('Desenvolvido por: João Pedro')  # Add developer name
-    doc.add_paragraph('Contato: (47) 9 99783190 / servicecontact.joao@gmail.com')  # Add developer contact information
+    doc.add_paragraph('Contato: (47)999783190 | servicecontact.joao@gmail.com')  # Add developer contact information
 
     doc.add_heading('Informações Gerais:', level=2)  # Add a level 2 heading for the general information section
-    doc.add_paragraph(f'Total gasto no período analisado: R${despesas_total}')  # Add total expenses in the analyzed period
-    doc.add_paragraph(f'Total recebido no período analisado: R${receitas_total}')  # Add total revenues in the analyzed period
-    doc.add_paragraph(f'Superávit/Défict: R${supv}')  # Add surplus/deficit amount
+    doc.add_paragraph(f'Total gasto no período analisado: R${format_number(despesas_total)}')  # Add total expenses in the analyzed period
+    doc.add_paragraph(f'Total recebido no período analisado: R${format_number(receitas_total)}')  # Add total revenues in the analyzed period
+    doc.add_paragraph(f'Superávit/Défict: R${format_number(supv)}')  # Add surplus/deficit amount
     doc.add_paragraph(f'Data mais antiga analisada: {data_min.strftime("%d/%m/%Y")}')  # Add earliest analyzed date
     doc.add_paragraph(f'Data mais recente analisada: {data_max.strftime("%d/%m/%Y")}')  # Add latest analyzed date
     doc.add_paragraph(f'Período de Análise: {periodo_str}')  # Add analysis period
 
-    doc.add_heading('Detalhes de Gastos por Categoria', level=2)  # Add a level 2 heading for expense details by category
+    doc.add_page_break()
+
+    doc.add_heading('Detalhes de Despesas por Categoria', level=2)  # Add a level 2 heading for expense details by category
 
     # Loop through expense categories and add details to the document
     for despesa, categoria in despesas_cat.items():
         despesa, categoria = categoria, despesa
         mdia = despesa / periodo.days if periodo.days != 0 else 0
         gperc = (despesa / despesas_total) * 100
-        doc.add_paragraph(f'O total gasto em {categoria} no período analisado foi de {despesa}R$')
+        doc.add_paragraph(f'O total gasto em {categoria} no período analisado foi de R${format_number(despesa)}')
         doc.add_paragraph(f'A média de gasto diário com {categoria} foi de aproximadamente {mdia:.2f}R$, representando {gperc:.2f}% do valor total de gastos do período analisado.')
     doc.add_paragraph()
         
@@ -49,14 +55,14 @@ def generate_report():
     
     doc.add_page_break()
     
-    doc.add_heading('Detalhes de Gastos por Método de Pagamento', level=2)  # Add a level 2 heading for expense details by payment method
+    doc.add_heading('Detalhes de Despesas por Método de Pagamento', level=2)  # Add a level 2 heading for expense details by payment method
 
     # Loop through expense payment methods and add details to the document
     for despesa, metodo in despesas_met.items():
         despesa, metodo = metodo, despesa
         mdia = (despesa / periodo.days)
         gperc = (despesa / despesas_total) * 100
-        doc.add_paragraph(f'O total gasto por {metodo} no período analisado foi de {despesa}R$')
+        doc.add_paragraph(f'O total gasto por {metodo} no período analisado foi de R${format_number(despesa)}')
         doc.add_paragraph(f'A média de gasto diário por {metodo} foi de aproximadamente {mdia:.2f}R$, representando {gperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
@@ -72,7 +78,7 @@ def generate_report():
         receita, categoria = categoria, receita
         mdia = (receita / periodo.days)
         rperc = (receita / receitas_total) * 100
-        doc.add_paragraph(f'O total recebido em {categoria} no período analisado foi de R${receita}')
+        doc.add_paragraph(f'O total recebido em {categoria} no período analisado foi de R${format_number(receita)}')
         doc.add_paragraph(f'A média de recebimento diário foi de aproximadamente R${mdia:.2f}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
@@ -88,7 +94,7 @@ def generate_report():
         receita, metodo = metodo, receita
         mdia = (receita / periodo.days)
         rperc = (receita / receitas_total) * 100
-        doc.add_paragraph(f'O total recebido por {metodo} no período analisado foi de R${receita}')
+        doc.add_paragraph(f'O total recebido por {metodo} no período analisado foi de R${format_number(receita)}')
         doc.add_paragraph(f'A média de recebimento diário foi de aproximadamente R${mdia:.2f}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
