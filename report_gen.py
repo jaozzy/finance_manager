@@ -44,10 +44,11 @@ def generate_report():
     # Loop through expense categories and add details to the document
     for despesa, categoria in despesas_cat.items():
         despesa, categoria = categoria, despesa
-        mdia = despesa / periodo.days if periodo.days != 0 else 0
+        mdia = (despesa / periodo.days)
+        mmes = (mdia * 30)
         gperc = (despesa / despesas_total) * 100
         doc.add_paragraph(f'O total gasto em {categoria} no período analisado foi de R${format_number(despesa)}')
-        doc.add_paragraph(f'A média de gasto diário com {categoria} foi de aproximadamente {mdia:.2f}R$, representando {gperc:.2f}% do valor total de gastos do período analisado.')
+        doc.add_paragraph(f'A média de gasto diário com {categoria} foi de aproximadamente R${mdia:.2f} e a mensal foi de aproximadamente {mmes}, representando {gperc:.2f}% do valor total de gastos do período analisado.')
     doc.add_paragraph()
         
     doc.add_heading('Gráfico de Setores Relacionado às Despesas por Categoria em Função das Despesas totais do Periodo Analisado:', level=2)  # Add a level 2 heading for the pie chart of expenses by category
@@ -61,9 +62,10 @@ def generate_report():
     for despesa, metodo in despesas_met.items():
         despesa, metodo = metodo, despesa
         mdia = (despesa / periodo.days)
+        mmes = (mdia * 30)
         gperc = (despesa / despesas_total) * 100
         doc.add_paragraph(f'O total gasto por {metodo} no período analisado foi de R${format_number(despesa)}')
-        doc.add_paragraph(f'A média de gasto diário por {metodo} foi de aproximadamente {mdia:.2f}R$, representando {gperc:.2f}% do valor total de gastos do período analisado.')
+        doc.add_paragraph(f'A média de gasto diário por {metodo} foi de aproximadamente R${mdia:.2f} e a mensal foi de aproximadamente {mmes}, representando {gperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
     doc.add_heading('Gráfico de Setores Relacionado às Despesas por Método de Pagamento em Função das Despesas totais do Periodo Analisado:', level=2)  # Add a level 2 heading for the pie chart of expenses by payment method
@@ -77,9 +79,10 @@ def generate_report():
     for receita, categoria in receitas_cat.items():
         receita, categoria = categoria, receita
         mdia = (receita / periodo.days)
+        mmes = (mdia * 30)
         rperc = (receita / receitas_total) * 100
         doc.add_paragraph(f'O total recebido em {categoria} no período analisado foi de R${format_number(receita)}')
-        doc.add_paragraph(f'A média de recebimento diário foi de aproximadamente R${mdia:.2f}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
+        doc.add_paragraph(f'A média de recebimento diário em {categoria} foi de aproximadamente R${mdia:.2f} e a mensal foi de aproximadamente {mmes}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
     doc.add_heading('Gráfico de Setores Relacionado às Receitas por Categoria em Função das Receitas totais do Periodo Analisado:', level=2)  # Add a level 2 heading for the pie chart of revenues by category
@@ -93,9 +96,10 @@ def generate_report():
     for receita, metodo in receitas_met.items():
         receita, metodo = metodo, receita
         mdia = (receita / periodo.days)
+        mmes = (mdia * 30)
         rperc = (receita / receitas_total) * 100
         doc.add_paragraph(f'O total recebido por {metodo} no período analisado foi de R${format_number(receita)}')
-        doc.add_paragraph(f'A média de recebimento diário foi de aproximadamente R${mdia:.2f}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
+        doc.add_paragraph(f'A média de recebimento diário por {metodo} foi de aproximadamente R${mdia:.2f} e a mensal foi de aproximadamente {mmes}, representando {rperc:.2f}% do valor total de gastos do período analisado.')
         doc.add_paragraph()
         
     doc.add_heading('Gráfico de Setores Relacionado às Receitas por Método de Pagamento em Função das Receitas totais do Periodo Analisado:', level=2)  # Add a level 2 heading for the pie chart of revenues by payment method
